@@ -1,32 +1,22 @@
-name: Deploy to Railway # Nama workflow
-
-on:
-  push:
-    branches: 
-      - master # Menjalankan workflow setiap kali ada push ke branch master 
-
-
 jobs:
   deploy:
-    runs-on: ubuntu-latest # Menggunakan runner Linux dari GitHub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
 
+      - name: Railway Login
+        env:
+          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
+        run: railway login --apiKey $RAILWAY_API_KEY
 
-    steps: 
-      - name: Checkout code 
-        uses: actions/checkout@v3 # Ini mengambil semua file dari repo ke runner 
+      - name: Deploy to Railway
+        run: railway up
 
-
-      - name: Set up Python
-        uses: actions/setup-python@v4 # Setup Python ke versi tertentu 
-        with: 
-          python-version: '3.12' # Versi Python yang digunakan, sesuaikan dengan project
-
-
-      - name: Install Railway CLI 
-        run: npm install -g @railway/cli # Ini digunakan untuk deploy via terminal 
-
-
-      - name: Deploy to Railway 
-        env: 
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_PROJECT_ID }}
-        run: npx railway deploy
