@@ -3,7 +3,7 @@ name: Deploy to Railway
 on:
   push:
     branches:
-      - main  # Ganti dengan branch utama kamu jika beda
+      - master  # Ganti dengan branch utama kamu jika beda
 
 jobs:
   deploy:
