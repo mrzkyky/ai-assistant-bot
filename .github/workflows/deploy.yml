@@ -23,11 +23,10 @@ jobs:
 
 
       - name: Install Railway CLI 
-        run: npm install -g railway # Ini digunakan untuk deploy via terminal 
+        run: npm install -g @railway/cli # Ini digunakan untuk deploy via terminal 
 
 
       - name: Deploy to Railway 
         env: 
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }} # Mengambil API KEY dari Secrets GitHub
-        run: railway up --service=bot # Menjalankan deploy ke Railway, dan untuk memastikannya nama service di Railway adalah "bot" 
-
+          RAILWAY_API_KEY: ${{ secrets.RAILWAY_PROJECT_ID }}
+        run: npx @railway/cli deploy --service=ai-assistant-bot
