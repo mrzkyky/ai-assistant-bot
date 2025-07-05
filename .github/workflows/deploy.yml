@@ -3,7 +3,7 @@ name: 🚀 Deploy ke Railway
 on:
   push:
     branches:
-      - master # ganti dengan main jika perlu
+      - master  # Ganti ke "main" kalau kamu pakai branch main
 
 jobs:
   deploy:
@@ -11,15 +11,15 @@ jobs:
 
     env:
       RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-      PROJECT_ID: 2bc0aa0e-0e39-441d-8f71-6b5e18fa94c9
+      RAILWAY_ PROJECT_ID: 2bc0aa0e-0e39-441d-8f71-6b5e18fa94c9
       SERVICE_NAME: ai-assistant-bot
 
     steps:
       - name: 🔄 Checkout kode
         uses: actions/checkout@v3
 
-      - name: ⚙️ Install Railway CLI
-        run: npm install -g railway
+      - name: ⚙️ Install Railway CLI versi terbaru
+        run: npm install -g @railway/cli
 
       - name: 🚀 Deploy ke Railway
         run: |
