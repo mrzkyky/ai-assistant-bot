@@ -3,7 +3,7 @@ name: 🚀 Deploy ke Railway
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
