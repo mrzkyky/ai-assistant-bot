@@ -1,52 +1,45 @@
-name: Deploy to Railway
+name: 🚀 Deploy ke Railway
 
 on:
   push:
     branches:
-      - master  # Atau 'main' tergantung branch Anda
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      PROJECT_ID: 2bc0aa0e-0e39-441d-8f71-6b5e18fa94c9
+      SERVICE_NAME: ai-assistant-bot
+
     steps:
-      - name: Checkout repository
+      - name: 🔄 Checkout kode
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - name: ⚙️ Install Railway CLI
+        run: npm install -g railway
 
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
+      - name: 🔗 Link project Railway
+        run: railway link --project "$PROJECT_ID"
 
-      - name: Verify Railway CLI
-        run: railway --version
+      - name: 🔗 Link service
+        run: railway service link "$SERVICE_NAME"
 
-      - name: Deploy to Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: 🚀 Deploy ke Railway
         run: |
           echo "====>>> Memulai deployment..."
+          echo "🚀 Men-deploy service: $SERVICE_NAME"
 
-          # 1. Link project 
-          echo "Link project..."
-          railway link robust-radiance
-
-          # 2. Link service
-          echo "Link service..."
-          railway service link ai-assistant-bot
-
-          # 3. Deploy dengan logging verbose
-          echo "Starting deployment..."
-          if railway up --service ai-assistant-bot  --detach -v; then
+          if railway up --service "$SERVICE_NAME" --detach -v; then
             echo "✅ Deployment berhasil"
-            echo "Status terakhir"
+            echo "📊 Status terakhir:"
             railway status
-          else 
+          else
             echo "❌ Deployment gagal!"
-            echo "Log error terakhir:"
+            echo "📄 Log error terakhir:"
             railway logs --limit 10
             exit 1
           fi
+
