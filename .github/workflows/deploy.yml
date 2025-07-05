@@ -18,8 +18,8 @@ jobs:
       - name: 🔄 Checkout kode
         uses: actions/checkout@v3
 
-      - name: ⚙️ Install Railway CLI versi terbaru
-        run: npm install -g @railway/cli
+      - name: ⚙️ Install Railway CLI v2 (stabil)
+        run: npm install -g railway@2
 
       - name: 🚀 Deploy ke Railway
         run: |
