@@ -18,10 +18,11 @@ jobs:
       - name: 🔄 Checkout kode
         uses: actions/checkout@v3
 
-      - name: ⚙️ Install Railway CLI v2 (from GitHub release)
+      - name: ⚙️ Install Railway CLI v2 (binary langsung)
         run: |
-          curl -fsSL https://raw.githubusercontent.com/railwayapp/cli/v2.0.11/install.sh | sh
-          echo "$HOME/.railway/bin" >> $GITHUB_PATH
+          curl -L https://github.com/railwayapp/cli/releases/download/v2.0.11/railway-linux-x64 -o railway
+          chmod +x railway
+          sudo mv railway /usr/local/bin/railway
 
       - name: 🚀 Deploy ke Railway
         run: |
