@@ -3,7 +3,7 @@ name: 🚀 Deploy ke Railway
 on:
   push:
     branches:
-      - master
+      - master # ganti dengan main jika perlu
 
 jobs:
   deploy:
@@ -21,25 +21,19 @@ jobs:
       - name: ⚙️ Install Railway CLI
         run: npm install -g railway
 
-      - name: 🔗 Link project Railway
-        run: railway link --project "$PROJECT_ID"
-
-      - name: 🔗 Link service
-        run: railway service link "$SERVICE_NAME"
-
       - name: 🚀 Deploy ke Railway
         run: |
-          echo "====>>> Memulai deployment..."
-          echo "🚀 Men-deploy service: $SERVICE_NAME"
+          echo "====>>> Memulai deployment tanpa link..."
+          echo "🚀 Men-deploy service: $SERVICE_NAME di project $PROJECT_ID"
 
-          if railway up --service "$SERVICE_NAME" --detach -v; then
+          if railway up --project "$PROJECT_ID" --service "$SERVICE_NAME" --detach -v; then
             echo "✅ Deployment berhasil"
             echo "📊 Status terakhir:"
-            railway status
+            railway status --project "$PROJECT_ID"
           else
             echo "❌ Deployment gagal!"
             echo "📄 Log error terakhir:"
-            railway logs --limit 10
+            railway logs --project "$PROJECT_ID" --service "$SERVICE_NAME" --limit 10
             exit 1
           fi
 
