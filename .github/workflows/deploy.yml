@@ -28,10 +28,25 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          echo "Memulai deployment..."
-          if railway up --detach --service api; then
+          echo "====>>> Memulai deployment..."
+
+          # 1. Link project 
+          echo "Link project..."
+          railway link robust-radiance
+
+          # 2. Link service
+          echo "Link service..."
+          railway service link ai-assistant-bot
+
+          # 3. Deploy dengan logging verbose
+          echo "Starting deployment..."
+          if railway up --service ai-assistant-bot  --detach -v; then
             echo "✅ Deployment berhasil"
+            echo "Status terakhir"
+            railway status
           else 
-            echo "❌ Deployment gagal!!"
+            echo "❌ Deployment gagal!"
+            echo "Log error terakhir:"
+            railway logs --limit 10
             exit 1
           fi
