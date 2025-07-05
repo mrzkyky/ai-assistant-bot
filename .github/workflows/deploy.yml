@@ -3,7 +3,7 @@ name: Deploy to Railway
 on:
   push:
     branches:
-      - master  # Ganti ke 'main' jika branch kamu bernama main
+      - master  # Atau 'main' kalau pakai nama branch itu
 
 jobs:
   deploy:
@@ -21,8 +21,11 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      - name: Set RAILWAY_TOKEN
+        run: echo "//auth setup done"  # Hanya placeholder
+
       - name: Deploy to Railway
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_API_KEY }}
-        run: railway up -- --project=2bc0aa0e-0e39-441d-8f71-6b5e18fa94c9 --service=ai-assistant-bot --detach
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up -- --detach
 
