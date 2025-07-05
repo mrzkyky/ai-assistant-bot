@@ -29,5 +29,9 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Memulai deployment..."
-          railway up --detach
-          echo "Deployment selesai!"
+          if railway up --detach; then
+            echo "✅ Deployment berhasil"
+          else 
+            echo "❌ Deployment gagal!!"
+            exit 1
+          fi
