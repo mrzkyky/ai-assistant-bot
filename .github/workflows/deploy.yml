@@ -3,7 +3,7 @@ name: 🚀 Deploy ke Railway
 on:
   push:
     branches:
-      - master  # atau ganti ke 'main' kalau pakai branch main
+      - master  # atau 'main' sesuai repo kamu
 
 jobs:
   deploy:
@@ -18,12 +18,14 @@ jobs:
       - name: 🔄 Checkout kode
         uses: actions/checkout@v3
 
-      - name: ⚙️ Install Railway CLI v2 (stabil)
-        run: npm install -g railway@2
+      - name: ⚙️ Install Railway CLI v2 (from GitHub release)
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/railwayapp/cli/v2.0.11/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
 
       - name: 🚀 Deploy ke Railway
         run: |
-          echo "====>>> Memulai deployment (CLI v2)..."
+          echo "====>>> Memulai deployment (CLI v2 binary)..."
           echo "🚀 Men-deploy service: $SERVICE_NAME di project $PROJECT_ID"
 
           if railway up --project "$PROJECT_ID" --service "$SERVICE_NAME" --detach -v; then
